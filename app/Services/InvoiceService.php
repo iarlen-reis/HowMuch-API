@@ -31,4 +31,39 @@ class InvoiceService
 
         return response()->json($invoice);
     }
+
+    public function grouped(string $id)
+    {
+        $purchases = $this->invoiceRepository->grouped($id);
+
+        $result = $purchases->map(function ($group, $date) {
+            return [
+                'date' => $date,
+                'items' => $group->map(function ($purchase) {
+                    return [
+                        'id' => $purchase->id,
+                        'title' => $purchase->title,
+                        'value' => $purchase->value,
+                        'type' => $purchase->type,
+                    ];
+                })->all(),
+            ];
+        })->values()->all();
+
+        return $result;
+    }
+
+    public function totalNextInvoices()
+    {
+        return response()->json([
+            'total_next_invoices' => $this->invoiceRepository->totalNextInvoices(),
+        ]);
+    }
+
+    public function totalCurrentInvoice()
+    {
+        return response()->json([
+            'total_current_invoice' => $this->invoiceRepository->totalCurrentInvoice(),
+        ]);
+    }
 }
