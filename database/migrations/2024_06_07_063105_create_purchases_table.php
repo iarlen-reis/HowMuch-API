@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->string('type');
-            $table->integer('value');
+            $table->decimal('value', 10, 2);
             $table->text('description');
             $table->dateTime('date');
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->dateTime('date');
-            $table->integer('total');
+            $table->decimal('total', 10, 2);
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
