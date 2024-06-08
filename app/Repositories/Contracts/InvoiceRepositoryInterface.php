@@ -5,6 +5,7 @@ namespace App\Repositories\Contracts;
 use App\Models\Invoice;
 use DateTime;
 use Illuminate\Database\Eloquent\Collection;
+use Ramsey\Uuid\Type\Decimal;
 
 interface InvoiceRepositoryInterface
 {
@@ -16,9 +17,11 @@ interface InvoiceRepositoryInterface
 
     public function existByMonthAndYear(string $date): Invoice;
 
-    public function totalNextInvoices(): int;
+    public function totalNextInvoices(): string;
 
-    public function totalCurrentInvoice(): int;
+    public function totalCurrentInvoice(): string;
+
+    public function nextInvoices(): Collection;
 
     public function grouped(string $id): Collection;
 }
