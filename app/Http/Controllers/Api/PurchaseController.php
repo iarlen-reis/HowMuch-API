@@ -34,4 +34,9 @@ class PurchaseController extends Controller
     {
         return $this->purchaseService->destroy($id);
     }
+
+    public function lastPurchases()
+    {
+        return $this->purchaseService->lastPurchases();
+    }
 }
