@@ -4,6 +4,7 @@ namespace App\Repositories\Contracts;
 
 use App\Models\Purchase;
 use DateTime;
+use Illuminate\Database\Eloquent\Collection;
 
 interface PurchaseRepositoryInterface
 {
@@ -14,4 +15,6 @@ interface PurchaseRepositoryInterface
     public function store(array $data): Purchase;
 
     public function destroy(string $id): void;
+
+    public function lastPurchases(): Collection;
 }
