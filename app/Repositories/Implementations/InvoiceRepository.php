@@ -3,9 +3,11 @@
 namespace App\Repositories\Implementations;
 
 use App\Models\Invoice;
+use App\Models\Purchase;
 use App\Repositories\Contracts\InvoiceRepositoryInterface;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Gate;
 
 class InvoiceRepository implements InvoiceRepositoryInterface
@@ -50,5 +52,38 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         }
 
         return $invoice;
+    }
+
+    public function grouped(string $id): Collection
+    {
+        $purchases = Purchase::where('user_id', auth()->id())
+            ->where('invoice_id', $id)
+            ->orderBy('date', 'desc')
+            ->get()
+            ->groupBy(function ($purchase) {
+                return Carbon::parse($purchase->date)->format('Y-m-d');
+            });
+
+        return $purchases;
+    }
+
+    public function totalCurrentInvoice(): int
+    {
+        return Invoice::where('user_id', auth()->user()->id)
+            ->whereYear('date', Carbon::now()->year)
+            ->whereMonth('date', Carbon::now()->month)
+            ->sum('total');
+    }
+
+
+    public function totalNextInvoices(): int
+    {
+        $totalNextInvoices = Invoice::where('user_id', auth()->user()->id)
+            ->where('date', '>', Carbon::now())
+            ->get()
+            ->sum('total');
+
+
+        return $totalNextInvoices;
     }
 }
