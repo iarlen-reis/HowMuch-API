@@ -67,16 +67,16 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         return $purchases;
     }
 
-    public function totalCurrentInvoice(): int
+    public function totalCurrentInvoice(): string
     {
-        return Invoice::where('user_id', auth()->user()->id)
+        return  Invoice::where('user_id', auth()->user()->id)
             ->whereYear('date', Carbon::now()->year)
             ->whereMonth('date', Carbon::now()->month)
             ->sum('total');
     }
 
 
-    public function totalNextInvoices(): int
+    public function totalNextInvoices(): string
     {
         $totalNextInvoices = Invoice::where('user_id', auth()->user()->id)
             ->where('date', '>', Carbon::now())
@@ -85,5 +85,13 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
 
         return $totalNextInvoices;
+    }
+
+    public function nextInvoices(): Collection
+    {
+        return Invoice::where('user_id', auth()->user()->id)
+            ->where('date', '>', Carbon::now())
+            ->orderBy('date', 'asc')
+            ->get();
     }
 }
