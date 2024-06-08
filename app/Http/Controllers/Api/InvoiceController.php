@@ -38,4 +38,9 @@ class InvoiceController extends Controller
     {
         return $this->invoiceService->totalNextInvoices();
     }
+
+    public function nextInvoices()
+    {
+        return $this->invoiceService->nextInvoices();
+    }
 }
