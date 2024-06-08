@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\InvoiceController;
+use App\Http\Controllers\Api\PurchaseController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(["prefix" => "/auth"], function () {
@@ -11,4 +13,17 @@ Route::group(["prefix" => "/auth"], function () {
 Route::group(['prefix' => '/auth', 'middleware' => ['auth:api']], function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
+});
+
+Route::group(['prefix' => '/invoices', 'middleware' => ['auth:api']], function () {
+    Route::get('/', [InvoiceController::class, 'index']);
+    Route::get('/{id}', [InvoiceController::class, 'show']);
+});
+
+
+Route::group(['prefix' => '/purchase', 'middleware' => ['auth:api']], function () {
+    Route::get('/', [PurchaseController::class, 'index']);
+    Route::post('/', [PurchaseController::class, 'store']);
+    Route::get('/{id}', [PurchaseController::class, 'show']);
+    Route::delete('/{id}', [PurchaseController::class, 'destroy']);
 });
