@@ -66,4 +66,12 @@ class InvoiceService
             'total_current_invoice' => $this->invoiceRepository->totalCurrentInvoice(),
         ]);
     }
+
+    public function nextInvoices()
+    {
+        return response()->json([
+            'total_next_invoices' => $this->invoiceRepository->totalNextInvoices(),
+            'next_invoices' => $this->invoiceRepository->nextInvoices(),
+        ]);
+    }
 }
