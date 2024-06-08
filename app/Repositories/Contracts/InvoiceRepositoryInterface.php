@@ -4,7 +4,7 @@ namespace App\Repositories\Contracts;
 
 use App\Models\Invoice;
 use DateTime;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Database\Eloquent\Collection;
 
 interface InvoiceRepositoryInterface
 {
@@ -15,4 +15,10 @@ interface InvoiceRepositoryInterface
     public function store(DateTime $date): Invoice;
 
     public function existByMonthAndYear(string $date): Invoice;
+
+    public function totalNextInvoices(): int;
+
+    public function totalCurrentInvoice(): int;
+
+    public function grouped(string $id): Collection;
 }
