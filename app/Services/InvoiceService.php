@@ -90,14 +90,6 @@ class InvoiceService
         ]);
     }
 
-    public function nextInvoices(): NextInvoiceResource
-    {
-        return NextInvoiceResource::make([
-            'total' => $this->invoiceRepository->totalNextInvoices(),
-            'invoices' => $this->invoiceRepository->nextInvoices(),
-        ]);
-    }
-
     public function chart(string $id)
     {
         $invoice = $this->invoiceRepository->chart($id);
