@@ -22,6 +22,7 @@ Route::group(['prefix' => '/invoices', 'middleware' => ['auth:api']], function (
     Route::get('/', [InvoiceController::class, 'index']);
     Route::get('/{id}', [InvoiceController::class, 'show']);
     Route::get('/{id}/grouped', [InvoiceController::class, 'grouped']);
+    Route::get('/{id}/chart', [InvoiceController::class, 'chart']);
 });
 
 
