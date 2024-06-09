@@ -12,11 +12,10 @@ use Illuminate\Support\Facades\Gate;
 
 class InvoiceRepository implements InvoiceRepositoryInterface
 {
-    public function index(): array
+    public function index(): Collection
     {
         return Invoice::where('user_id', auth()->user()->id)
-            ->get()
-            ->toArray();
+            ->get();
     }
 
     public function show(string $id): Invoice

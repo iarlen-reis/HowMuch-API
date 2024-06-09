@@ -9,7 +9,7 @@ use Ramsey\Uuid\Type\Decimal;
 
 interface InvoiceRepositoryInterface
 {
-    public function index(): array;
+    public function index(): Collection;
 
     public function show(string $id): Invoice;
 
