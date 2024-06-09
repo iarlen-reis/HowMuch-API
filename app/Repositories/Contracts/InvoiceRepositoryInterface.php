@@ -21,8 +21,6 @@ interface InvoiceRepositoryInterface
 
     public function totalCurrentInvoice(): string;
 
-    public function nextInvoices(): Collection;
-
     public function grouped(string $id): Collection;
 
     public function chart(string $id): Collection;
