@@ -43,4 +43,9 @@ class InvoiceController extends Controller
     {
         return $this->invoiceService->nextInvoices();
     }
+
+    public function chart(string $id)
+    {
+        return $this->invoiceService->chart($id);
+    }
 }
