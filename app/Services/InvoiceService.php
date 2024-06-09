@@ -2,9 +2,13 @@
 
 namespace App\Services;
 
+use App\Http\Resources\Invoice\InvoiceResource;
+use App\Http\Resources\Invoice\NextInvoiceResource;
+use App\Http\Resources\Invoice\ShowInvoiceResource;
 use App\Repositories\Contracts\InvoiceRepositoryInterface;
 use DateTime;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class InvoiceService
 {
@@ -15,12 +19,12 @@ class InvoiceService
         $this->invoiceRepository = $invoiceRepository;
     }
 
-    public function index(): array
+    public function index(): AnonymousResourceCollection
     {
-        return $this->invoiceRepository->index();
+        return InvoiceResource::collection($this->invoiceRepository->index());
     }
 
-    public function show(string $id): JsonResponse
+    public function show(string $id): ShowInvoiceResource
     {
         $purchases = $this->invoiceRepository->grouped($id);
 
@@ -38,7 +42,7 @@ class InvoiceService
             ];
         })->values()->all();
 
-        return response()->json([
+        return ShowInvoiceResource::make([
             'invoice' => $this->invoiceRepository->show($id),
             'purchases' => $result,
         ]);
@@ -75,22 +79,22 @@ class InvoiceService
     public function totalNextInvoices()
     {
         return response()->json([
-            'total_next_invoices' => $this->invoiceRepository->totalNextInvoices(),
+            'total' => $this->invoiceRepository->totalNextInvoices(),
         ]);
     }
 
     public function totalCurrentInvoice()
     {
         return response()->json([
-            'total_current_invoice' => $this->invoiceRepository->totalCurrentInvoice(),
+            'total' => $this->invoiceRepository->totalCurrentInvoice(),
         ]);
     }
 
-    public function nextInvoices()
+    public function nextInvoices(): NextInvoiceResource
     {
-        return response()->json([
-            'total_next_invoices' => $this->invoiceRepository->totalNextInvoices(),
-            'next_invoices' => $this->invoiceRepository->nextInvoices(),
+        return NextInvoiceResource::make([
+            'total' => $this->invoiceRepository->totalNextInvoices(),
+            'invoices' => $this->invoiceRepository->nextInvoices(),
         ]);
     }
 
