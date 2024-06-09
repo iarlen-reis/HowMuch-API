@@ -21,7 +21,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
     public function show(string $id): Invoice
     {
-        $invoice = Invoice::with('purchases')->find($id);
+        $invoice = Invoice::find($id);
 
         Gate::authorize('show', $invoice);
 
@@ -93,5 +93,19 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             ->where('date', '>', Carbon::now())
             ->orderBy('date', 'asc')
             ->get();
+    }
+
+    public function chart(string $id): Collection
+    {
+        $purchases = Purchase::where('user_id', auth()->id())
+            ->where('invoice_id', $id)
+            ->orderBy('date', 'desc')
+            ->get()
+            ->groupBy(function ($purchase) {
+                return $purchase->type;
+            });
+
+
+        return $purchases;
     }
 }
