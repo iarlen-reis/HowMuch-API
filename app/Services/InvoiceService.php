@@ -109,4 +109,38 @@ class InvoiceService
 
         return response()->json($chart);
     }
+
+    public function currentInvoice()
+    {
+        $invoice = $this->invoiceRepository->currentInvoice();
+
+        $puchases = $this->invoiceRepository->grouped($invoice->id);
+
+        $result = $puchases->map(function ($group, $date) {
+            return [
+                'date' => $date,
+                'items' => $group->map(function ($purchase) {
+                    return [
+                        'id' => $purchase->id,
+                        'title' => $purchase->title,
+                        'value' => $purchase->value,
+                        'type' => $purchase->type,
+                    ];
+                })->all(),
+            ];
+        })->values()->all();
+
+        return ShowInvoiceResource::make([
+            'invoice' => $invoice,
+            'purchases' => $result,
+        ]);
+    }
+
+    public function nextInvoices(): NextInvoiceResource
+    {
+        return NextInvoiceResource::make([
+            'total' => $this->invoiceRepository->totalNextInvoices(),
+            'invoices' => $this->invoiceRepository->nextInvoices(),
+        ]);
+    }
 }
