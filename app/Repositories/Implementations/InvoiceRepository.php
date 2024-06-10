@@ -91,4 +91,20 @@ class InvoiceRepository implements InvoiceRepositoryInterface
                 return $purchase->type;
             });
     }
+
+    public function currentInvoice(): Invoice
+    {
+        return Invoice::where('user_id', auth()->user()->id)
+            ->whereYear('date', Carbon::now()->year)
+            ->whereMonth('date', Carbon::now()->month)
+            ->first();
+    }
+
+    public function nextInvoices(): Collection
+    {
+        return Invoice::where('user_id', auth()->user()->id)
+            ->where('date', '>', Carbon::now())
+            ->orderBy('date', 'asc')
+            ->get();
+    }
 }
