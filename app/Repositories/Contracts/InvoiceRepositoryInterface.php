@@ -24,4 +24,8 @@ interface InvoiceRepositoryInterface
     public function grouped(string $id): Collection;
 
     public function chart(string $id): Collection;
+
+    public function currentInvoice(): Invoice;
+
+    public function nextInvoices(): Collection;
 }
