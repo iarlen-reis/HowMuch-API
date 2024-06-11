@@ -26,7 +26,7 @@ class AuthRepository implements AuthRepositoryInterface
 
     public function me(): Authenticatable
     {
-        return auth()->user();
+        return User::where('id', auth()->id())->first();
     }
 
     public function logout(): void

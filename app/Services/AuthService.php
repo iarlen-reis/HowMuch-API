@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use App\Http\Resources\AuthResource;
+use App\Http\Resources\Auth\Show;
 use App\Repositories\Contracts\AuthRepositoryInterface;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 
 class AuthService
@@ -40,9 +39,9 @@ class AuthService
         return response()->json($userCreated, 201);
     }
 
-    public function me(): Authenticatable
+    public function me(): Show
     {
-        return $this->authRepository->me();
+        return Show::make($this->authRepository->me());
     }
 
     public function logout(): void

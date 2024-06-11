@@ -4,7 +4,6 @@ namespace App\Repositories\Contracts;
 
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Http\JsonResponse;
 
 interface AuthRepositoryInterface
 {
