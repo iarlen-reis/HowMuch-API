@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Repositories\Contracts\InvoiceRepositoryInterface;
 use App\Repositories\Contracts\PurchaseRepositoryInterface;
+use App\Repositories\Contracts\UploadRepositoryInterface;
 use App\Repositories\Implementations\AuthRepository;
 use App\Repositories\Implementations\InvoiceRepository;
 use App\Repositories\Implementations\PurchaseRepository;
+use App\Repositories\Implementations\UploadRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,6 +32,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             PurchaseRepositoryInterface::class,
             PurchaseRepository::class,
+        );
+
+        $this->app->bind(
+            UploadRepositoryInterface::class,
+            UploadRepository::class,
         );
     }
 
