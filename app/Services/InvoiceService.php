@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
-use App\Http\Resources\Invoice\InvoiceResource;
-use App\Http\Resources\Invoice\NextInvoiceResource;
+use App\Http\Resources\Invoice\Index;
+use App\Http\Resources\Invoice\NextInvoices;
+use App\Http\Resources\Invoice\Show;
 use App\Http\Resources\Invoice\ShowInvoiceResource;
 use App\Repositories\Contracts\InvoiceRepositoryInterface;
 use DateTime;
@@ -21,10 +22,10 @@ class InvoiceService
 
     public function index(): AnonymousResourceCollection
     {
-        return InvoiceResource::collection($this->invoiceRepository->index());
+        return Index::collection($this->invoiceRepository->index());
     }
 
-    public function show(string $id): ShowInvoiceResource
+    public function show(string $id): Show
     {
         $purchases = $this->invoiceRepository->grouped($id);
 
@@ -42,7 +43,7 @@ class InvoiceService
             ];
         })->values()->all();
 
-        return ShowInvoiceResource::make([
+        return Show::make([
             'invoice' => $this->invoiceRepository->show($id),
             'purchases' => $result,
         ]);
@@ -136,9 +137,9 @@ class InvoiceService
         ]);
     }
 
-    public function nextInvoices(): NextInvoiceResource
+    public function nextInvoices(): NextInvoices
     {
-        return NextInvoiceResource::make([
+        return NextInvoices::make([
             'total' => $this->invoiceRepository->totalNextInvoices(),
             'invoices' => $this->invoiceRepository->nextInvoices(),
         ]);
