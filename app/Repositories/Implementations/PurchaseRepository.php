@@ -10,9 +10,11 @@ use Illuminate\Database\Eloquent\Collection;
 class PurchaseRepository implements PurchaseRepositoryInterface
 {
 
-    public function index(): array
+    public function index(): Collection
     {
-        return Purchase::where('user_id', auth()->id())->get()->toArray();
+        return Purchase::where('user_id', auth()->id())
+            ->orderBy('date', 'desc')
+            ->get();
     }
 
     public function show(string $id): Purchase
