@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\PurchaseController;
+use App\Http\Controllers\Api\UploadController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(["prefix" => "/auth"], function () {
@@ -30,4 +31,8 @@ Route::group(['prefix' => '/purchase', 'middleware' => ['auth:api']], function (
     Route::post('/', [PurchaseController::class, 'store']);
     Route::get('/{id}', [PurchaseController::class, 'show']);
     Route::delete('/{id}', [PurchaseController::class, 'destroy']);
+});
+
+Route::group(['prefix' => '/upload', 'middleware' => ['auth:api']], function () {
+    Route::post('/', [UploadController::class, 'store']);
 });
