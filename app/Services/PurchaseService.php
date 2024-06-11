@@ -2,8 +2,12 @@
 
 namespace App\Services;
 
+use App\Http\Resources\Purchase\Index;
+use App\Http\Resources\Purchase\LastPurchases;
+use App\Http\Resources\Purchase\Show;
 use App\Repositories\Contracts\InvoiceRepositoryInterface;
 use App\Repositories\Contracts\PurchaseRepositoryInterface;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Gate;
 
 class PurchaseService
@@ -18,21 +22,21 @@ class PurchaseService
         $this->invoiceRepository = $invoiceRepository;
     }
 
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
-        return response()->json($this->purchaseRepository->index());
+        return Index::collection($this->purchaseRepository->index());
     }
 
-    public function show(string $id)
+    public function show(string $id): Show
     {
         $purchase = $this->purchaseRepository->show($id);
 
         Gate::authorize('show', $purchase);
 
-        return response()->json($purchase);
+        return Show::make($purchase);
     }
 
-    public function store(array $data)
+    public function store(array $data): Show
     {
         $invoiceExist = $this->invoiceRepository->existByMonthAndYear($data['date']);
 
@@ -46,12 +50,10 @@ class PurchaseService
             'total' => $invoiceExist->total + $data['value'],
         ]);
 
-        return response()->json([
-            'purchase' => $purchase,
-        ]);
+        return Show::make($purchase);
     }
 
-    public function destroy(string $id)
+    public function destroy(string $id): void
     {
         $purchase = $this->purchaseRepository->show($id);
 
@@ -66,7 +68,7 @@ class PurchaseService
         $this->purchaseRepository->destroy($purchase->id);
     }
 
-    public function lastPurchases()
+    public function lastPurchases(): LastPurchases
     {
         $purchases = $this->purchaseRepository->lastPurchases();
 
@@ -84,7 +86,7 @@ class PurchaseService
             ];
         })->values()->all();
 
-        return response()->json([
+        return LastPurchases::make([
             'total_current_invoice' => $this->invoiceRepository->totalCurrentInvoice(),
             'total_next_invoices' => $this->invoiceRepository->totalNextInvoices(),
             'last_purchases' => $result,
