@@ -76,7 +76,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     public function totalNextInvoices(): string
     {
         return Invoice::where('user_id', auth()->user()->id)
-            ->where('date', '>', Carbon::now())
+            ->whereMonth('date', '>', Carbon::now()->month)
             ->get()
             ->sum('total');
     }
@@ -103,7 +103,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     public function nextInvoices(): Collection
     {
         return Invoice::where('user_id', auth()->user()->id)
-            ->where('date', '>', Carbon::now())
+            ->whereMonth('date', '>', Carbon::now()->month)
             ->orderBy('date', 'asc')
             ->get();
     }
