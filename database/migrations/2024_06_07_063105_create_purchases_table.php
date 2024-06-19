@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('type');
             $table->decimal('value', 10, 2);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->dateTime('date');
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('invoice_id')->constrained()->onDelete('cascade');
