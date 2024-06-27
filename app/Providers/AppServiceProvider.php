@@ -10,6 +10,7 @@ use App\Repositories\Implementations\AuthRepository;
 use App\Repositories\Implementations\InvoiceRepository;
 use App\Repositories\Implementations\PurchaseRepository;
 use App\Repositories\Implementations\UploadRepository;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -45,6 +46,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (env('APP_ENV') !== 'local') {
+            URL::forceScheme('https');
+        }
     }
 }
