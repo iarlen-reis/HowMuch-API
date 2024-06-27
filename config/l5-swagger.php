@@ -6,6 +6,12 @@ return [
         'default' => [
             'api' => [
                 'title' => 'L5 Swagger UI',
+                'consumes' => [
+                    'application/json',
+                ],
+                'produces' => [
+                    'application/json',
+                ],
             ],
 
             'routes' => [
@@ -15,6 +21,7 @@ return [
                 'api' => 'api/documentation',
             ],
             'paths' => [
+
                 /*
                  * Edit to include full URL in ui for assets
                 */
@@ -254,6 +261,9 @@ return [
          * Swagger UI configuration parameters
         */
         'ui' => [
+            'requestHeaders' => [
+                'accept' => 'application/json',
+            ],
             'display' => [
                 /*
                  * Controls the default expansion setting for the operations and tags. It can be :
