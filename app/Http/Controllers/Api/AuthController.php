@@ -24,19 +24,11 @@ class AuthController extends Controller
      *  path="/api/auth/login",
      *  tags={"Auth"},
      *  summary="Get the authenticated user with JWT token",
-     *  @OA\Parameter(
-     *      name="email",
-     *      in="query",
-     *      description="User’s email",
-     *      required=true,
-     *      @OA\Schema(type="string")
-     *  ),
-     *  @OA\Parameter(
-     *      name="password",
-     *      in="query",
-     *      description="User’s password",
-     *      required=true,
-     *      @OA\Schema(type="string")
+     *  @OA\RequestBody(
+     *      @OA\JsonContent(
+     *          @OA\Property(property="email", type="string", example="user@test.com"),
+     *          @OA\Property(property="password", type="string", example="password"),
+     *      )
      *  ),
      *  @OA\Response(
      *      response=200,
@@ -67,26 +59,12 @@ class AuthController extends Controller
      *  tags={"Auth"},
      *  path="/api/auth/register",
      *  summary="Register a new user",
-     *  @OA\Parameter(
-     *      name="name",
-     *      in="query",
-     *      description="User’s name",
-     *      required=true,
-     *      @OA\Schema(type="string")
-     *  ),
-     *  @OA\Parameter(
-     *      name="email",
-     *      in="query",
-     *      description="User’s email",
-     *      required=true,
-     *      @OA\Schema(type="string")
-     *  ),
-     *  @OA\Parameter(
-     *      name="password",
-     *      in="query",
-     *      description="User’s password",
-     *      required=true,
-     *      @OA\Schema(type="string")
+     *  @OA\RequestBody(
+     *      @OA\JsonContent(
+     *          @OA\Property(property="name", type="string", example="User"),
+     *          @OA\Property(property="email", type="string", example="user@test.com"),
+     *          @OA\Property(property="password", type="string", example="password"),
+     *      )
      *  ),
      *  @OA\Response(
      *      response=201,
