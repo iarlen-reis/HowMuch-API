@@ -26,7 +26,7 @@ Essa é a API da aplicação HowMuch (gerenciador de gastos), ela foi construíd
 
 ## Documentação da API
 
-[Swagger da API](https://how-much.iarlenreis.com.br/api/documentation)
+[Swagger da API](https://how-much-api.iarlenreis.com.br/api/documentation)
 
 ### Faturas (Invoices)
 
